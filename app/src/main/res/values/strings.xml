@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">LeukemiaApp</string>
+    <string name="main_medication_text">Medication</string>
+    <string name="main_hydration_text">Hydration</string>
+    <string name="main_title_text">Leukemia Organization Application</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="medication_add_title">Add a Medication</string>
+    <string name="medication_view_dose_hint">Milligrams</string>
+    <string name="medication_view_dose_text">Dosage:</string>
+    <string name="medication_add_freq_text">Frequency:</string>
+    <string name="medication_add_freq_hint">Times per day</string>
 </resources>
