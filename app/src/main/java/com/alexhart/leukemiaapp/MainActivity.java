@@ -5,11 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.alexhart.leukemiaapp.UserDatabase.DBAdapter;
+
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button mMedication, mHydration;
-
+    private Button mMedication, mHydration;
+    private DBAdapter mDatabaseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
                 // When button is clicked it will go to mHydration Activity
 //                Intent hydration = new Intent(getBaseContext(), HydrationActivity.class);
 //                startActivity(hydration);
+
+                startActivity(new Intent(getApplicationContext(),DBTest.class));
             }
         });
 
@@ -38,5 +45,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(medication);
             }
         });
+
+        try {
+            mDatabaseAdapter = new DBAdapter(this).open();
+        }catch (SQLException e){
+            Toast.makeText(this, "database not created!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
