@@ -107,4 +107,8 @@ public class MedicationDBAdapter {
 
         return this.mDb.update(DATABASE_TABLE, args, KEY_ROW_ID + "=" + rowId, null) >0;
     }
+
+    public void execSQL(String sql) {
+        mDb.execSQL(sql);
+    }
 }

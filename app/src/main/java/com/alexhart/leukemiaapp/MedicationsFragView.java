@@ -1,11 +1,14 @@
 package com.alexhart.leukemiaapp;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -20,6 +23,8 @@ import android.widget.Toast;
 
 import com.alexhart.leukemiaapp.UserDatabase.MedicationDBAdapter;
 import com.alexhart.leukemiaapp.medication.MedContent;
+
+import java.io.File;
 
 /**
  * A fragment representing a list of Items.
@@ -54,8 +59,17 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(),"pos: " + position, Toast.LENGTH_SHORT).show();
 
+        double dose = MedContent.ITEMS.get(position).dose;
+        double freq = MedContent.ITEMS.get(position).freq;
+        String msg = "Dose: " + dose + "  Freq: " + freq;
+
+        final Snackbar snackBar = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
+        snackBar.setAction("Dismiss", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {snackBar.dismiss();
+            }
+        });snackBar.show();
     }
 
     private void displayMedList() {
@@ -76,6 +90,7 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
                 android.R.layout.simple_list_item_1, android.R.id.text1, mMedNames);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
+        mListView.setOnItemLongClickListener(mOnItemLongClickListener);
     }
 
     // Display an entire recordset to the screen.
@@ -88,9 +103,6 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
                 String name = cursor.getString(cursor.getColumnIndex("name"));
                 double dose = cursor.getInt(cursor.getColumnIndex("dose"));
                 double freq = cursor.getInt(cursor.getColumnIndex("freq"));
-
-                Log.d("View","Name: "+name);
-
                 MedContent.ITEMS.add(new MedContent.MedItem(name, dose, freq));
 
             } while(cursor.moveToNext());
@@ -113,7 +125,40 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
         }
     };
 
-    @Override
+    private AbsListView.OnItemLongClickListener mOnItemLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            createDeleteAlert(i);
+            return true;
+        }
+    };
+
+    private void createDeleteAlert(final int position) {
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle("Delete Medication?");
+        alert.setMessage("Delete " + MedContent.ITEMS.get(position) + " from the database?");
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+//                mMedicationDBAdapter.deleteUserInfoRow(position);
+                mMedicationDBAdapter.execSQL("DELETE FROM medicationdata WHERE name = '" +
+                    mMedNames[position] + "'");
+                Toast.makeText(getActivity(), "Medication deleted", Toast.LENGTH_SHORT).show();
+                createMedList();
+                displayMedList();
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        alert.show();
+    }
+
     public void onDestroy() {
         super.onDestroy();
 
