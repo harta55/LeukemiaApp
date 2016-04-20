@@ -1,5 +1,6 @@
 package com.alexhart.leukemiaapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,9 +8,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.alexhart.leukemiaapp.UserDatabase.MedicationDBAdapter;
+
+import java.sql.SQLException;
 
 public class MedicationHolder extends AppCompatActivity {
     ViewPager mViewPager;
+    private static MedicationDBAdapter mMedicationDBAdapter;
+    private final String TAG = "medication holder";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +29,58 @@ public class MedicationHolder extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new pagerAdapter(fm));
-//        mViewPager.setOnPageChangeListener(mOnPageChangeListener);
+        openDB();
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 1) {
+                    View view= getCurrentFocus();
+                    if (view!= null) {
+                        InputMethodManager imm= (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void openDB() {
+        try {
+            mMedicationDBAdapter = new MedicationDBAdapter(getApplicationContext()).open();
+        }catch (SQLException e){
+            Toast.makeText(getApplicationContext(), "Data not created!", Toast.LENGTH_SHORT).show();
+        }
+        Log.d(TAG, "Table created!");
+    }
+
+    private void closeDB() {
+        mMedicationDBAdapter.close();
+    }
+
+    public static MedicationDBAdapter getMedicationDBAdapter() {
+        return mMedicationDBAdapter;
+    }
+
+    public static void setMedicationDBAdapter(MedicationDBAdapter medicationDBAdapter) {
+        mMedicationDBAdapter = medicationDBAdapter;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        closeDB();
     }
 }
 
