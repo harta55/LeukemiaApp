@@ -18,4 +18,9 @@
     <string name="pref_key_med_update">med_update</string>
     <string name="pref_key_water_delete">water_delete</string>
     <string name="pref_key_water_update">water_update</string>
+    <string name="pref_water_update_summary">Which value would you like to edit?</string>
+    <string name="pref_med_update_name">Name</string>
+    <string name="pref_med_update_dose">Dose</string>
+    <string name="pref_med_update_freq">Freq</string>
+    <string name="pref_med_update_textview">Type in the new value here</string>
 </resources>

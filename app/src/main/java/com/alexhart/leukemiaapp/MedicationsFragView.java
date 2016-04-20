@@ -155,7 +155,6 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
 
             }
         });
-
         alert.show();
     }
 

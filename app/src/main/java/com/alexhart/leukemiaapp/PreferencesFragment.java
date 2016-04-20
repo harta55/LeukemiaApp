@@ -2,30 +2,27 @@ package com.alexhart.leukemiaapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.ImageFormat;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
-import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.util.Size;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alexhart.leukemiaapp.UserDatabase.MedicationDBAdapter;
 import com.alexhart.leukemiaapp.UserDatabase.WaterDataDBAdapter;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PreferencesFragment extends Activity {
 
@@ -34,15 +31,29 @@ public class PreferencesFragment extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFrag()).commit();
+
+
     }
 
-    public static class PrefsFrag extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+    public void onMedUpdateName(View view) {
+
+//        Toast.makeText(getApplicationContext(), "Clicked!", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    public static class PrefsFrag extends PreferenceFragment implements Preference.OnPreferenceChangeListener,
+            View.OnClickListener
+    {
 
         private static final String TAG = "PrefFrag";
         private PreferenceScreen mMedClear, mWaterClear;
         private EditTextPreference mMedUpdate, mWaterUpdate;
         private MedicationDBAdapter mMedicationDBAdapter;
         private WaterDataDBAdapter mWaterDataDBAdapter;
+        private String[] mMedUpdateStrings = {MedicationDBAdapter.KEY_NAME,
+                MedicationDBAdapter.KEY_DOSE, MedicationDBAdapter.KEY_FREQUENCY};
+        private String[] mWaterUpdateStrings = {"Date", "Intake", "Out", "Difference"};
 
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -72,6 +83,9 @@ public class PreferencesFragment extends Activity {
                     return true;
                 }
             });
+
+            mWaterUpdate.setOnPreferenceChangeListener(this);
+            mMedUpdate.setOnPreferenceChangeListener(this);
         }
 
 
@@ -122,7 +136,96 @@ public class PreferencesFragment extends Activity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object val) {
 
+            //can't do switch
+            if (preference.getKey().equals(getString(R.string.pref_key_med_update))) {
+
+//                Dialog settingsDialog = new Dialog(getActivity());
+//                settingsDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//                settingsDialog.setContentView(getActivity().getLayoutInflater().inflate(R.layout.med_update_dialog, null));
+//                settingsDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+//                    @Override
+//                    public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+//                        Log.d("prefMedUpdate", "OnKey");
+//                        makeToast("ID: " + i + " was clicked");
+//                        dialogInterface.cancel();
+//                        return true;
+//                    }
+//                });
+//
+//                settingsDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    @Override
+//                    public void onCancel(DialogInterface dialogInterface) {
+//                        makeToast("Cancelled!");
+//                    }
+//                });
+//                settingsDialog.show();
+
+                final String name = val.toString();
+                if (mMedicationDBAdapter.contains(val.toString(),MedicationDBAdapter.KEY_NAME)){
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                    alertDialog.setTitle("Edit which value?");
+                    alertDialog.setItems(mMedUpdateStrings, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //0 - name
+                            //1 - dose
+                            //2 - frequency
+                            createUpdateDialog(mMedUpdateStrings[i], name);
+                        }
+                    });
+                    alertDialog.show();
+                }else {
+                    makeToast("Not found");
+                }
+            }
             return true;
+        }
+
+        private void createUpdateDialog(final String type, final String name) {
+            final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+            final LayoutInflater inflater = getActivity().getLayoutInflater();
+            final View v = inflater.inflate(R.layout.med_alert_dialog_text,null);
+
+            final EditText updateText = (EditText)v.findViewById(R.id.pref_med_update_edit);
+            alertBuilder.setView(v)
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            String update = updateText.getText().toString();
+                            if (!update.equals("")) {
+                                String sql = "UPDATE " + MedicationDBAdapter.DATABASE_TABLE +
+                                        " SET " + type + " = " + update +
+                                        " WHERE " + MedicationDBAdapter.KEY_NAME +
+                                        " = " + "'" + name + "'";
+                                mMedicationDBAdapter.execSQL(sql);
+                                makeToast("Updated");
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            alertBuilder.setTitle(type);
+            alertBuilder.show();
+        }
+
+        public void onClick(View view) {
+
+            switch (view.getId()) {
+
+                case R.id.updateName_button:
+                    makeToast("Name!");
+                    break;
+                case R.id.updateDose_button:
+                    makeToast("Dose!");
+                    break;
+                case R.id.updateFreq_button:
+                    makeToast("Freq!");
+                    break;
+            }
+
         }
 
         private void makeToast(String msg) {
@@ -144,6 +247,8 @@ public class PreferencesFragment extends Activity {
             super.onDestroy();
             closeDB();
         }
+
+
     }
     @Override
     protected void onDestroy() {
