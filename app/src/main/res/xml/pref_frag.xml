@@ -1,0 +1,37 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_height="match_parent" android:layout_width="match_parent">
+
+    <PreferenceCategory
+        android:title="Medication Database">
+
+        <PreferenceScreen
+            android:title="Delete med data"
+            android:key="@string/pref_key_med_delete"/>
+
+        <EditTextPreference
+            android:key="@string/pref_key_med_update"
+            android:title="Update an entry"
+            android:summary="Change an entry in the database"
+            android:dialogTitle="Enter the name of the medication to edit"
+            android:inputType="text"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Water Database">
+
+        <PreferenceScreen
+            android:title="Delete water data"
+            android:key="@string/pref_key_water_delete"/>
+
+        <EditTextPreference
+            android:key="@string/pref_key_water_update"
+            android:title="Update an entry"
+            android:summary="Change an entry in the database"
+            android:dialogTitle="Enter the date you'd wish you edit"
+            android:inputType="date"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

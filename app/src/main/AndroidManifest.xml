@@ -17,9 +17,7 @@
         </activity>
         <activity android:name=".MedicationHolder">
         </activity>
-
-        <activity android:name=".DBTest">
-
+        <activity android:name=".PreferencesFragment">
         </activity>
     </application>
 

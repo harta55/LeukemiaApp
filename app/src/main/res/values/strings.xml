@@ -11,4 +11,11 @@
     <string name="medication_view_dose_text">Dosage:</string>
     <string name="medication_add_freq_text">Frequency:</string>
     <string name="medication_add_freq_hint">Times per day</string>
+    <string name="menu_managedatabase">Manage Database</string>
+
+
+    <string name="pref_key_med_delete">med_delete</string>
+    <string name="pref_key_med_update">med_update</string>
+    <string name="pref_key_water_delete">water_delete</string>
+    <string name="pref_key_water_update">water_update</string>
 </resources>

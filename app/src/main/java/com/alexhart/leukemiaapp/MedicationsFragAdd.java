@@ -1,8 +1,8 @@
 package com.alexhart.leukemiaapp;
 
 
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -62,6 +63,21 @@ public class MedicationsFragAdd extends Fragment {
                 mFreqEdit.setText("");
 
                 sendBroadcast(MED_UPDATE);
+            }
+        });
+
+        FloatingActionButton fab2 = (FloatingActionButton) view.findViewById(R.id.fab_delete);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mNameEdit.setText("");
+                mDoseEdit.setText("");
+                mFreqEdit.setText("");
+                View v = getActivity().getCurrentFocus();
+                if (v != null) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
             }
         });
     }
