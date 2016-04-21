@@ -31,10 +31,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // When button is clicked it will go to mHydration Activity
-//                Intent hydration = new Intent(getBaseContext(), HydrationActivity.class);
-//                startActivity(hydration);
-
-//                startActivity(new Intent(getApplicationContext(),DBTest.class));
+                Intent hydration = new Intent(getBaseContext(), HydrationHolder.class);
+                startActivity(hydration);
             }
         });
 

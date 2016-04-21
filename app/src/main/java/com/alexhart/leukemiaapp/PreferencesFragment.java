@@ -204,7 +204,9 @@ public class PreferencesFragment extends Activity {
                     })
                     .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
+//                            long l = mMedicationDBAdapter.getRowID(name);
+//                            makeToast("Long: " + l);
+//                            dialog.cancel();
                         }
                     });
             alertBuilder.setTitle(type);

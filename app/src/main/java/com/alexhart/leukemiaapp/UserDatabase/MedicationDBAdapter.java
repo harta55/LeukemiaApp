@@ -98,6 +98,18 @@ public class MedicationDBAdapter {
         return mCursor;
     }
 
+    public Long getRowID(String name) {
+        String query = "SELECT " + KEY_ROW_ID + " FROM " + DATABASE_TABLE +
+                " WHERE " + KEY_NAME + " = '" + name + "'";
+        Cursor c =
+                mDb.rawQuery(query,null);
+        int index = c.getColumnIndex(KEY_NAME);
+        c.moveToFirst();
+        long l = c.getLong(index);
+        c.close();
+        return l;
+    }
+
     public boolean updateMedicationData(long rowId, String name, String username,
                                         String password){
         ContentValues args = new ContentValues();

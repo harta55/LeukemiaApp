@@ -17,6 +17,9 @@
         </activity>
         <activity android:name=".MedicationHolder">
         </activity>
+        <activity android:name=".HydrationHolder">
+
+        </activity>
         <activity android:name=".PreferencesFragment">
         </activity>
     </application>

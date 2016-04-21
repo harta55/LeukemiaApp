@@ -142,6 +142,7 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
+
 //                mMedicationDBAdapter.deleteUserInfoRow(position);
                 mMedicationDBAdapter.execSQL("DELETE FROM medicationdata WHERE name = '" +
                     mMedNames[position] + "'");
