@@ -55,12 +55,8 @@ public class HydrationFragmentAdd extends Fragment {
                 double intake = Double.parseDouble(mInake.getText().toString());
                 double excrete = Double.parseDouble(mExcrete.getText().toString());
                 double dif = intake - excrete;
-
-                Log.d("Intake: ", ""+intake);
-                Log.d("Excrete: ", ""+excrete);
-                Log.d("Date: ", date);
-
-                long l = mWaterDataDBAdapter.createWaterData("date", 1.0, 1.0,1.0);
+                
+                long l = mWaterDataDBAdapter.createWaterData(date, intake, excrete,dif);
                 if (l == -1) {
                     Snackbar.make(view, "Error!", Snackbar.LENGTH_SHORT).show();
                 }else {
