@@ -28,7 +28,7 @@ public class MedicationsFragAdd extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_medications_frag_add, container, false);
+        View v = inflater.inflate(R.layout.fragment_medications_add, container, false);
         mMedicationDBAdapter = MedicationHolder.getMedicationDBAdapter();
         initUI(v);
 
@@ -57,11 +57,7 @@ public class MedicationsFragAdd extends Fragment {
                 mMedicationDBAdapter.createMedicationData(name, dose, freq);
 
                 Snackbar.make(view, "Data added", Snackbar.LENGTH_SHORT).show();
-
-                mNameEdit.setText("");
-                mDoseEdit.setText("");
-                mFreqEdit.setText("");
-
+                resetText();
                 sendBroadcast(MED_UPDATE);
             }
         });
@@ -70,9 +66,7 @@ public class MedicationsFragAdd extends Fragment {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mNameEdit.setText("");
-                mDoseEdit.setText("");
-                mFreqEdit.setText("");
+                resetText();
                 View v = getActivity().getCurrentFocus();
                 if (v != null) {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -86,7 +80,12 @@ public class MedicationsFragAdd extends Fragment {
         return !mNameEdit.getText().toString().equals("") &&
                 !mDoseEdit.getText().toString().equals("") &&
                 !mFreqEdit.getText().toString().equals("");
+    }
 
+    private void resetText() {
+        mNameEdit.setText("");
+        mDoseEdit.setText("");
+        mFreqEdit.setText("");
     }
 
     private void makeToast(String msg) {

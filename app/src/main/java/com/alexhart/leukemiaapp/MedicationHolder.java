@@ -32,7 +32,7 @@ public class MedicationHolder extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         FragmentManager fm = getSupportFragmentManager();
-        mViewPager.setAdapter(new pagerAdapter(fm));
+        mViewPager.setAdapter(new pagerAdapter2(fm));
         openDB();
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -110,9 +110,9 @@ public class MedicationHolder extends AppCompatActivity {
     }
 }
 
-class pagerAdapter extends FragmentPagerAdapter {
+class pagerAdapter2 extends FragmentPagerAdapter {
 
-    public pagerAdapter(FragmentManager fm) {
+    public pagerAdapter2(FragmentManager fm) {
         super(fm);
     }
 

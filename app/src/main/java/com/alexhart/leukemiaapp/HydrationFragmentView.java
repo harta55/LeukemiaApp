@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-class HydrationFragmentView extends Fragment {
+public class HydrationFragmentView extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

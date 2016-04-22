@@ -16,7 +16,7 @@ public class WaterDataDBAdapter {
     //setup fields for database table
     public static final String KEY_ROW_ID = "_id";
     public static final String KEY_DATE = "date";
-    public static final String KEY_IN = "in";
+    public static final String KEY_IN = "_in";
     public static final String KEY_OUT = "out";
     public static final String KEY_DIF = "dif";
 
@@ -79,14 +79,22 @@ public class WaterDataDBAdapter {
      * @param out
      * @return rowId or -1 if failed
      */
-    public long createWaterData(String date, double in, double out){
+    public long createWaterData(String date, double in, double out, double dif){
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_DATE, date);
         initialValues.put(KEY_IN, in);
         initialValues.put(KEY_OUT, out);
-        //todo dif method
-        initialValues.put(KEY_DIF, 1);
+        initialValues.put(KEY_DIF, dif);
 
+        String sql = "INSERT INTO " + DATABASE_TABLE + " (" + KEY_DATE + ", " +
+                KEY_IN + ", " + KEY_OUT + ", " + KEY_DIF + ")" + " VALUES " + "(" + "'" +
+                date + "'" + ", " + in + ", " + out + ", " + dif + ")";
+
+        String rawSQL = "INSERT INTO " + DATABASE_TABLE + " (" + KEY_DATE +
+                "," + KEY_IN + "," + KEY_OUT + "," + KEY_DIF + ")" + " VALUES(" +
+                date +"," + in + "," + out + "," + dif + ")";
+
+//        this.mDb.execSQL(rawSQL);
         return this.mDb.insert(DATABASE_TABLE, null, initialValues);
     }
 

@@ -1,19 +1,28 @@
 package com.alexhart.leukemiaapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
+
+import com.alexhart.leukemiaapp.UserDatabase.WaterDataDBAdapter;
+
+import java.sql.SQLException;
 
 public class HydrationHolder extends AppCompatActivity {
-    ViewPager hViewPager;
-
+    private ViewPager hViewPager;
+    private static WaterDataDBAdapter mWaterDataDBAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +30,8 @@ public class HydrationHolder extends AppCompatActivity {
         setContentView(R.layout.activity_medication_holder);
 
         hViewPager = (ViewPager) findViewById(R.id.pager);
+
+        openDB();
         FragmentManager fm = getSupportFragmentManager();
         hViewPager.setAdapter(new pagerAdapter(fm));
 
@@ -40,10 +51,7 @@ public class HydrationHolder extends AppCompatActivity {
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                 }
-
-
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -51,56 +59,51 @@ public class HydrationHolder extends AppCompatActivity {
         });
     }
 
-//    private void openDB() {
-//        try {
-//            mMedicationDBAdapter = new MedicationDBAdapter(getApplicationContext()).open();
-//        }catch (SQLException e){
-//            Toast.makeText(getApplicationContext(), "Data not created!", Toast.LENGTH_SHORT).show();
-//        }
-//        Log.d(TAG, "Table created!");
-//    }
-//
-//    private void closeDB() {
-//        mMedicationDBAdapter.close();
-//    }
-//
-//    public static MedicationDBAdapter getMedicationDBAdapter() {
-//        return mMedicationDBAdapter;
-//    }
-//
-//    public static void setMedicationDBAdapter(MedicationDBAdapter medicationDBAdapter) {
-//        mMedicationDBAdapter = medicationDBAdapter;
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//
-//        closeDB();
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        super.onCreateOptionsMenu(menu);
-//
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        invalidateOptionsMenu();
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        super.onOptionsItemSelected(item);
-//        int id = item.getItemId();
-//
-//        switch(id){
-//            case R.id.menu_database:
-//                startActivity(new Intent(getApplicationContext(),PreferencesFragment.class));
-//        }
-//
-//        return true;
-//    }
-//}
+    private void openDB() {
+        try {
+            mWaterDataDBAdapter = new WaterDataDBAdapter(getApplicationContext()).open();
+        }catch (SQLException e){
+            Toast.makeText(getApplicationContext(), "Data not created!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void closeDB() {
+        mWaterDataDBAdapter.close();
+    }
+
+    public static WaterDataDBAdapter getWaterDatabase() {
+        return mWaterDataDBAdapter;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        closeDB();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.main, menu);
+        invalidateOptionsMenu();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.menu_database:
+                startActivity(new Intent(getApplicationContext(),PreferencesFragment.class));
+        }
+
+        return true;
+    }
+}
 
     class pagerAdapter extends FragmentPagerAdapter {
 
@@ -143,4 +146,4 @@ public class HydrationHolder extends AppCompatActivity {
             return null;
         }
     }
-}
+
