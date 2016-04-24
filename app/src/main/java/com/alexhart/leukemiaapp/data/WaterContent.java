@@ -13,22 +13,23 @@ public class WaterContent {
 
     private static void addItem(WaterItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.name, item);
+//        ITEM_MAP.put(item.name, item);
     }
 
     public static class WaterItem {
-        public String name;
-        public Double dose,freq;
+        public String date;
+        public Double intake,outtake, difference;
 
-        public WaterItem(String name, Double d, Double freq) {
-            this.dose = d;
-            this.freq = freq;
-            this.name = name;
+        public WaterItem(String date, Double in, Double out, Double dif) {
+            this.date = date;
+            this.intake = in;
+            this.outtake = out;
+            this.difference = dif;
         }
 
         @Override
         public String toString() {
-            return name;
+            return date;
         }
     }
 }

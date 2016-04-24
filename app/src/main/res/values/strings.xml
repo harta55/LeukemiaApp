@@ -25,4 +25,7 @@
     <string name="pref_med_update_textview">Type in the new value here</string>
     <string name="menu_generate_water_data">Generate water data</string>
     <string name="hydration_pickday_text">Pick a day:</string>
+    <string name="hydration_intake_text">Intake:</string>
+    <string name="hydration_excrete_text">Excrete:</string>
+    <string name="hydration_dif_text">Difference:</string>
 </resources>

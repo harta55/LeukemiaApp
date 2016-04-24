@@ -106,8 +106,8 @@ public class HydrationHolder extends AppCompatActivity {
                 mWaterDataDBAdapter.deleteAll();
                 for (int i = 0; i<11;i++) {
                     String date = "April." + i + "." + 2016;
-                    double intake = rand.nextDouble();
-                    double excrete = rand.nextDouble();
+                    double intake = rand.nextInt(50);
+                    double excrete = rand.nextInt(50);
                     double dif = intake - excrete;
 
                     Log.d("Date: ",date);
