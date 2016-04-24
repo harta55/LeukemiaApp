@@ -58,7 +58,7 @@ public class MedicationsFragAdd extends Fragment {
 
                 Snackbar.make(view, "Data added", Snackbar.LENGTH_SHORT).show();
                 resetText();
-                sendBroadcast(MED_UPDATE);
+//                sendBroadcast(MED_UPDATE);
             }
         });
 
@@ -92,9 +92,5 @@ public class MedicationsFragAdd extends Fragment {
         Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
     }
 
-    private void sendBroadcast(String action) {
-        Log.d(TAG, "Broadcast sent");
-        Intent i = new Intent(action);
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
-    }
+
 }

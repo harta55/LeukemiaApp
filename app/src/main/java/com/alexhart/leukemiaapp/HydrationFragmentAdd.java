@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,11 @@ import java.util.Calendar;
 
 
 public class HydrationFragmentAdd extends Fragment {
-    private EditText mInake, mExcrete;
+    private EditText inTake, mExcrete;
     private WaterDataDBAdapter mWaterDataDBAdapter;
 
     public static final String[] months = {"January", "February", "March", "April",
         "May", "June", "July", "August", "September", "October", "November", "December"};
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +35,7 @@ public class HydrationFragmentAdd extends Fragment {
     }
 
     private void initUI(View view) {
-        mInake = (EditText)view.findViewById(R.id.hydration_intake_edit);
+        inTake = (EditText)view.findViewById(R.id.hydration_intake_edit);
         mExcrete = (EditText)view.findViewById(R.id.hydration_excrete_edit);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.hydration_fab_add);
@@ -52,10 +49,10 @@ public class HydrationFragmentAdd extends Fragment {
                 }
                 String date = getDate();
 
-                double intake = Double.parseDouble(mInake.getText().toString());
+                double intake = Double.parseDouble(inTake.getText().toString());
                 double excrete = Double.parseDouble(mExcrete.getText().toString());
                 double dif = intake - excrete;
-                
+
                 long l = mWaterDataDBAdapter.createWaterData(date, intake, excrete,dif);
                 if (l == -1) {
                     Snackbar.make(view, "Error!", Snackbar.LENGTH_SHORT).show();
@@ -91,11 +88,11 @@ public class HydrationFragmentAdd extends Fragment {
 
     private boolean inputCheck() {
         return !mExcrete.getText().toString().equals("") &&
-                !mInake.getText().toString().equals("");
+                !inTake.getText().toString().equals("");
     }
 
     private void resetText() {
-        mInake.setText("");
+        inTake.setText("");
         mExcrete.setText("");
     }
 

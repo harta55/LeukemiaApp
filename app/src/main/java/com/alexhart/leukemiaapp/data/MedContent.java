@@ -1,4 +1,4 @@
-package com.alexhart.leukemiaapp.medication;
+package com.alexhart.leukemiaapp.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;

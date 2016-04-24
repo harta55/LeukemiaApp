@@ -6,5 +6,14 @@
           android:checkable="false"
           android:orderInCategory="1"
           app:showAsAction="never"/>
+    <item android:id="@+id/menu_gen_water_data"
+        android:title="@string/menu_generate_water_data"
+        android:checkable="false"
+        android:orderInCategory="2"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menu_refresh"
+          android:title="Refresh"
+          android:icon="@drawable/ic_refresh"
+          app:showAsAction="ifRoom"/>
 
 </menu>

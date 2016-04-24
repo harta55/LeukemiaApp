@@ -23,4 +23,6 @@
     <string name="pref_med_update_dose">Dose</string>
     <string name="pref_med_update_freq">Freq</string>
     <string name="pref_med_update_textview">Type in the new value here</string>
+    <string name="menu_generate_water_data">Generate water data</string>
+    <string name="hydration_pickday_text">Pick a day:</string>
 </resources>

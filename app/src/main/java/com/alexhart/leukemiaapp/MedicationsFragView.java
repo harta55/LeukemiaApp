@@ -22,9 +22,7 @@ import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import com.alexhart.leukemiaapp.UserDatabase.MedicationDBAdapter;
-import com.alexhart.leukemiaapp.medication.MedContent;
-
-import java.io.File;
+import com.alexhart.leukemiaapp.data.MedContent;
 
 /**
  * A fragment representing a list of Items.

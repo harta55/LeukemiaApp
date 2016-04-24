@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -49,6 +50,7 @@ public class MedicationHolder extends AppCompatActivity {
                         InputMethodManager imm= (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
+                    sendBroadcast(MedicationsFragAdd.MED_UPDATE);
                 }
             }
 
@@ -57,6 +59,12 @@ public class MedicationHolder extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void sendBroadcast(String action) {
+        Log.d(TAG, "Broadcast sent");
+        Intent i = new Intent(action);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(i);
     }
 
     private void openDB() {

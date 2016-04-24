@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.alexhart.leukemiaapp.UserDatabase.WaterDataDBAdapter;
 
 import java.sql.SQLException;
+import java.util.Random;
 
 public class HydrationHolder extends AppCompatActivity {
     private ViewPager hViewPager;
@@ -99,9 +100,38 @@ public class HydrationHolder extends AppCompatActivity {
         switch(id){
             case R.id.menu_database:
                 startActivity(new Intent(getApplicationContext(),PreferencesFragment.class));
-        }
+                break;
+            case R.id.menu_gen_water_data:
+                Random rand = new Random();
+                mWaterDataDBAdapter.deleteAll();
+                for (int i = 0; i<11;i++) {
+                    String date = "April." + i + "." + 2016;
+                    double intake = rand.nextDouble();
+                    double excrete = rand.nextDouble();
+                    double dif = intake - excrete;
 
+                    Log.d("Date: ",date);
+
+                    long temp = mWaterDataDBAdapter.createWaterData(date, intake, excrete, dif);
+                    if (temp == -1) {
+                        Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Data Created", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case R.id.menu_refresh:
+                sendBroadcast(HydrationFragmentView.WATER_UPDATE);
+                break;
+
+        }
         return true;
+    }
+
+    private void sendBroadcast(String action) {
+        Log.d("Hydration", "Broadcast sent");
+        Intent i = new Intent(action);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(i);
     }
 }
 
