@@ -177,27 +177,28 @@ public class WaterDataDBAdapter {
         args.put(KEY_DATE, date);
         args.put(KEY_IN, in);
         args.put(KEY_OUT, out);
+        args.put(KEY_DIF,in - out);
 
         return this.mDb.update(DATABASE_TABLE, args, KEY_ROW_ID + "=" + rowId, null) >0;
     }
 
-    public boolean contains(String txt, String tag) {
-        String query = "SELECT " + tag + " from " + DATABASE_TABLE;
+    public Long contains(String txt, String tag) {
+        String query = "SELECT " + tag + "," + KEY_ROW_ID + " from " + DATABASE_TABLE;
         Cursor cursor = mDb.rawQuery(query,null);
         String temp;
 
         if (cursor.moveToFirst()) {
             do{
-                temp = cursor.getString(0);
+                temp = cursor.getString(cursor.getColumnIndex(tag));
                 if (temp.equals(txt)) {
-                    return true;
+                    return cursor.getLong(cursor.getColumnIndex(KEY_ROW_ID));
                 }
             }
             while (cursor.moveToNext());
         }
         //close cursor to avoid resource leak
         cursor.close();
-        return false;
+        return null;
     }
 
     public void execSQL(String sql) {

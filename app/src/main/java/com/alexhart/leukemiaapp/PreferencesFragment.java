@@ -3,6 +3,7 @@ package com.alexhart.leukemiaapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -49,7 +50,7 @@ public class PreferencesFragment extends Activity {
                 MedicationDBAdapter.KEY_DOSE, MedicationDBAdapter.KEY_FREQUENCY};
         private String[] mWaterUpdateStrings = {WaterDataDBAdapter.KEY_DATE, WaterDataDBAdapter.KEY_IN,
                 WaterDataDBAdapter.KEY_OUT};
-        //TODO fix bug with not updating dif
+
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -152,7 +153,8 @@ public class PreferencesFragment extends Activity {
                 }
             }else if (preference.getKey().equals(getString(R.string.pref_key_water_update))) {
                 final String date = val.toString();
-                if (mWaterDataDBAdapter.contains(date,WaterDataDBAdapter.KEY_DATE)) {
+                final Long id = mWaterDataDBAdapter.contains(date,WaterDataDBAdapter.KEY_DATE);
+                if (id != null) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                     alertDialog.setTitle("Edit which value?");
                     alertDialog.setItems(mWaterUpdateStrings, new DialogInterface.OnClickListener() {
@@ -162,10 +164,12 @@ public class PreferencesFragment extends Activity {
                             //1 - Intake
                             //2 - Excrete
                             //3 - Difference
-                            createWaterUpdateDialog(mWaterUpdateStrings[i], date);
+                            createWaterUpdateDialog(mWaterUpdateStrings[i], date,id);
                         }
                     });
                     alertDialog.show();
+                }else {
+                    makeToast("Not found");
                 }
 
             }
@@ -204,7 +208,7 @@ public class PreferencesFragment extends Activity {
             alertBuilder.show();
         }
 
-        private void createWaterUpdateDialog(final String type, final String date) {
+        private void createWaterUpdateDialog(final String type, final String date, final long idd) {
             final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
             final LayoutInflater inflater = getActivity().getLayoutInflater();
             final View v = inflater.inflate(R.layout.med_alert_dialog_text,null);
@@ -216,11 +220,34 @@ public class PreferencesFragment extends Activity {
                         public void onClick(DialogInterface dialog, int id) {
                             String update = updateText.getText().toString();
                             if (!update.equals("")) {
-                                String sql = "UPDATE " + WaterDataDBAdapter.DATABASE_TABLE +
-                                        " SET " + type + " = " + update +
-                                        " WHERE " + WaterDataDBAdapter.KEY_DATE +
-                                        " = " + "'" + date + "'";
-                                mWaterDataDBAdapter.execSQL(sql);
+                                double intake = 0, excrete = 0;
+                                try {
+                                    Cursor c = mWaterDataDBAdapter.getWaterDataRow(idd);
+                                    if (c.moveToFirst()) {
+                                        do {
+                                            intake = c.getDouble(c.getColumnIndex(WaterDataDBAdapter.KEY_IN));
+                                            excrete = c.getDouble(c.getColumnIndex(WaterDataDBAdapter.KEY_OUT));
+                                        }
+                                        while (c.moveToNext());
+                                    }
+                                    c.close();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                    return;
+                                }
+
+                                switch (type) {
+                                    case WaterDataDBAdapter.KEY_IN:
+                                        mWaterDataDBAdapter.updateWaterData(idd, date, Double.parseDouble(update), excrete);
+                                        break;
+                                    case WaterDataDBAdapter.KEY_OUT:
+                                        mWaterDataDBAdapter.updateWaterData(idd, date, intake, Double.parseDouble(update));
+                                        break;
+                                    default:
+                                        //date
+                                        mWaterDataDBAdapter.updateWaterData(idd, update, intake, excrete);
+                                        break;
+                                }
                                 makeToast("Updated");
                             }
                         }
