@@ -180,4 +180,28 @@ public class WaterDataDBAdapter {
 
         return this.mDb.update(DATABASE_TABLE, args, KEY_ROW_ID + "=" + rowId, null) >0;
     }
+
+    public boolean contains(String txt, String tag) {
+        String query = "SELECT " + tag + " from " + DATABASE_TABLE;
+        Cursor cursor = mDb.rawQuery(query,null);
+        String temp;
+
+        if (cursor.moveToFirst()) {
+            do{
+                temp = cursor.getString(0);
+                if (temp.equals(txt)) {
+                    return true;
+                }
+            }
+            while (cursor.moveToNext());
+        }
+        //close cursor to avoid resource leak
+        cursor.close();
+        return false;
+    }
+
+    public void execSQL(String sql) {
+        mDb.execSQL(sql);
+    }
+
 }

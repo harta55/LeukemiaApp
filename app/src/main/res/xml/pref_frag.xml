@@ -30,7 +30,7 @@
             android:title="Update an entry"
             android:summary="Change an entry in the database"
             android:dialogTitle="Enter the date you'd wish you edit"
-            android:inputType="date"/>
+            android:inputType="text"/>
 
     </PreferenceCategory>
 
