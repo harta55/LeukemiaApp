@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:id="@+id/hydration_intake_show"
-                android:text="TEST"
+                android:text="@string/hydration_empty_text"
                 android:textSize="20sp"
                 android:layout_weight="0.1"
                 android:gravity="end"
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:id="@+id/hydration_excrete_show"
-                android:text="TEST"
+                android:text="@string/hydration_empty_text"
                 android:textSize="20sp"
                 android:layout_weight="0.1"
                 android:gravity="end"
@@ -88,7 +88,7 @@
             <TextView
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:id="@+id/hydration_dif_show"
-                android:text="TEST"
+                android:text="@string/hydration_empty_text"
                 android:textSize="20sp"
                 android:layout_weight="0.1"
                 android:gravity="end"

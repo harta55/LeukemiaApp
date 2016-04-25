@@ -74,8 +74,11 @@ public class MedicationsFragView extends Fragment implements AbsListView.OnItemC
         mMedNames = new String[MedContent.ITEMS.size()];
 
         if (mMedNames.length == 0) {
-            makeToast("No data!");
+            makeToast("No data :(");
+            mListView.setVisibility(View.GONE);
             return;
+        }else {
+            mListView.setVisibility(View.VISIBLE);
         }
 
         int n = 0;

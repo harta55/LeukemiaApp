@@ -7,24 +7,31 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="com.example.ryanrood.lapp.MainActivity">
+                tools:context="com.alexhart.leukemiaapp.MainActivity">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
         android:text="@string/main_medication_text"
         android:id="@+id/Medication"
+        android:layout_marginTop="58dp"
+        android:textColor="#ffffff"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="121dp" />
+        android:layout_alignParentStart="true"
+        />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:background="@color/colorPrimary"
         android:text="@string/main_hydration_text"
         android:id="@+id/Hydration"
-        android:layout_below="@+id/Medication"
-        android:layout_alignStart="@+id/Medication" />
+        android:textColor="#ffffff"
+        android:layout_below="@+id/imageView"
+        android:layout_alignEnd="@+id/textView"
+
+        android:layout_marginTop="80dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,5 +41,26 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/rx"
+        android:layout_toEndOf="@+id/Medication"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/Medication"
+        android:layout_alignTop="@+id/Medication"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/h20"
+        android:layout_alignTop="@+id/Hydration"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/Hydration"
+        android:layout_toStartOf="@+id/Hydration" />
 
 </RelativeLayout>

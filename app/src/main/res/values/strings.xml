@@ -28,4 +28,5 @@
     <string name="hydration_intake_text">Intake:</string>
     <string name="hydration_excrete_text">Excrete:</string>
     <string name="hydration_dif_text">Difference:</string>
+    <string name="hydration_empty_text">EMPTY</string>
 </resources>

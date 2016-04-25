@@ -57,11 +57,6 @@ public class HydrationFragmentView extends Fragment {
         mDifText = (TextView) v.findViewById(R.id.hydration_dif_show);
 
         createGraphData();
-
-        mStringArrayAdapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, mDates);
-        mSpinner.setAdapter(mStringArrayAdapter);
-        mSpinner.setOnItemSelectedListener(mSpinnerListener);
         return v;
     }
 
@@ -99,9 +94,13 @@ public class HydrationFragmentView extends Fragment {
                 mDates.add(date);
             }
         }
-
         // Close the cursor to avoid a resource leak.
         cursor.close();
+
+        mStringArrayAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, mDates);
+        mSpinner.setAdapter(mStringArrayAdapter);
+        mSpinner.setOnItemSelectedListener(mSpinnerListener);
     }
 
     private Spinner.OnItemSelectedListener mSpinnerListener = new Spinner.OnItemSelectedListener() {

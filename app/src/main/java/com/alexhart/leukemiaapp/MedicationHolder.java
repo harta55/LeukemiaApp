@@ -112,6 +112,9 @@ public class MedicationHolder extends AppCompatActivity {
         switch(id){
             case R.id.menu_database:
                 startActivity(new Intent(getApplicationContext(),PreferencesFragment.class));
+                break;
+            case R.id.menu_refresh:
+                sendBroadcast(MedicationsFragAdd.MED_UPDATE);
         }
 
         return true;
