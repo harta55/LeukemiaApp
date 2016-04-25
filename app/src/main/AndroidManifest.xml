@@ -16,9 +16,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".MedicationHolder">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.alexhart.leukemiaapp.MainActivity" />
         </activity>
         <activity android:name=".HydrationHolder">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.alexhart.leukemiaapp.MainActivity" />
         </activity>
         <activity android:name=".PreferencesFragment">
         </activity>

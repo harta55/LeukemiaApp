@@ -1,5 +1,6 @@
 package com.alexhart.leukemiaapp;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,11 @@ public class MedicationHolder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medication_holder);
+
+        ActionBar actionBar = getActionBar();
+        if (actionBar!=null) {
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         FragmentManager fm = getSupportFragmentManager();
@@ -115,6 +121,10 @@ public class MedicationHolder extends AppCompatActivity {
                 break;
             case R.id.menu_refresh:
                 sendBroadcast(MedicationsFragAdd.MED_UPDATE);
+                break;
+            case android.R.id.home:
+                this.finish();
+                break;
         }
 
         return true;

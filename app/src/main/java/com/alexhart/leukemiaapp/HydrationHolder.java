@@ -1,5 +1,6 @@
 package com.alexhart.leukemiaapp;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,10 @@ public class HydrationHolder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medication_holder);
+        ActionBar actionBar = getActionBar();
+        if (actionBar!=null) {
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         hViewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -88,6 +93,8 @@ public class HydrationHolder extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.main, menu);
+
+
         invalidateOptionsMenu();
         return true;
     }
@@ -122,6 +129,9 @@ public class HydrationHolder extends AppCompatActivity {
                 break;
             case R.id.menu_refresh:
                 sendBroadcast(HydrationFragmentView.WATER_UPDATE);
+                break;
+            case android.R.id.home:
+                this.finish();
                 break;
 
         }
